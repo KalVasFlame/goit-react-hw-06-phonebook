@@ -6,7 +6,11 @@ import actions from "../../../redux/actions"
 import styles from "./ContactItem.module.css"
 
 const ContactItem = ({ onDeleteClick }) => {
-  const contacts = useSelector(({ contacts }) => contacts)
+  const contacts = useSelector((state) => {
+    console.log(state)
+
+    return state.contacts
+  })
   const filter = useSelector(({ filter }) => filter)
   const filteredContacts = getFilteredContacts(contacts, filter)
   return filteredContacts.map(({ id, name, number }) => {
