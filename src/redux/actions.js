@@ -1,23 +1,17 @@
-import types from "./types"
 import shortid from "shortid"
+import { createAction } from "@reduxjs/toolkit"
 
-const Add = ({ name, number }) => ({
-  type: types.ADD,
+const Add = createAction("contacts/Add", ({ name, number }) => ({
   payload: {
     id: shortid.generate(),
     name,
     number,
   },
-})
-const Delete = (id) => ({
-  type: types.DELETE,
-  payload: id,
-})
+}))
 
-const Filter = (value) => ({
-  type: types.FILTER,
-  payload: value,
-})
+const Delete = createAction("contacts/Delete")
+
+const Filter = createAction("contacts/Filter")
 
 export default {
   Add,

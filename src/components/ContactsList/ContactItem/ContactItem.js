@@ -1,12 +1,15 @@
 import React from "react"
-import { connect } from "react-redux"
+import { connect, useSelector } from "react-redux"
 
 import actions from "../../../redux/actions"
 
 import styles from "./ContactItem.module.css"
 
-const ContactItem = ({ contacts, onDeleteClick }) =>
-  contacts.map(({ id, name, number }) => {
+const ContactItem = ({ onDeleteClick }) => {
+  const contacts = useSelector(({ contacts }) => contacts)
+  const filter = useSelector(({ filter }) => filter)
+  const filteredContacts = getFilteredContacts(contacts, filter)
+  return filteredContacts.map(({ id, name, number }) => {
     return (
       <li key={id} className={styles.contacts_item}>
         {name}: {number}
@@ -16,16 +19,12 @@ const ContactItem = ({ contacts, onDeleteClick }) =>
       </li>
     )
   })
-
+}
 const getFilteredContacts = (allContacts, filterValue) =>
   allContacts.filter(({ name }) => name.toLowerCase().includes(filterValue.toLowerCase()))
-
-const mapStateToProps = ({ contacts, filter }) => ({
-  contacts: getFilteredContacts(contacts, filter),
-})
 
 const mapDispatchToProps = (dispatch) => ({
   onDeleteClick: (id) => dispatch(actions.Delete(id)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactItem)
+export default connect(null, mapDispatchToProps)(ContactItem)

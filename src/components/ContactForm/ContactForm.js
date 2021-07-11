@@ -13,17 +13,17 @@ class ContactForm extends React.Component {
   }
 
   onSubmit = (e) => {
-    const { onSubmit, contacts } = this.props
+    const { contacts } = this.props
     const { name } = this.state
     this.checkUniq(contacts, name)
     e.preventDefault()
-    onSubmit(this.state)
 
     this.formReset()
   }
 
   checkUniq = (contacts, name) => {
-    return contacts.some((i) => i.name === name) ? alert(`${name} is already in contacts`) : [name, ...contacts]
+    const { onSubmit } = this.props
+    return contacts.some((i) => i.name === name) ? alert(`${name} is already in contacts`) : onSubmit({ ...this.state })
   }
 
   formReset = () => {
